@@ -9465,6 +9465,10 @@ var _weather = __webpack_require__(83);
 
 var _weather2 = _interopRequireDefault(_weather);
 
+var _autocomplete = __webpack_require__(181);
+
+var _autocomplete2 = _interopRequireDefault(_autocomplete);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9485,6 +9489,7 @@ var Widgets = function (_React$Component) {
 	_createClass(Widgets, [{
 		key: 'render',
 		value: function render() {
+			var names = ['Juno', 'JayJay', 'Nyxie', 'Stella', 'Zeus', 'Togo', 'Miku'];
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -9494,7 +9499,8 @@ var Widgets = function (_React$Component) {
 					'Hello from widgets'
 				),
 				_react2.default.createElement(_clock2.default, null),
-				_react2.default.createElement(_weather2.default, null)
+				_react2.default.createElement(_weather2.default, null),
+				_react2.default.createElement(_autocomplete2.default, { names: names })
 			);
 		}
 	}]);
@@ -21957,6 +21963,109 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(25);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Autocomplete = function (_React$Component) {
+	_inherits(Autocomplete, _React$Component);
+
+	function Autocomplete(props) {
+		_classCallCheck(this, Autocomplete);
+
+		var _this = _possibleConstructorReturn(this, (Autocomplete.__proto__ || Object.getPrototypeOf(Autocomplete)).call(this, props));
+
+		_this.state = {
+			searchWord: ''
+		};
+		return _this;
+	}
+
+	_createClass(Autocomplete, [{
+		key: 'search',
+		value: function search(ev) {
+			var searchWord = ev.currentTarget.value;
+
+			this.setState({
+				searchWord: searchWord
+			});
+		}
+	}, {
+		key: 'matches',
+		value: function matches() {
+			var _this2 = this;
+
+			var names = this.props.names;
+			var matchedNames = [];
+
+			names.forEach(function (name) {
+				var subStr = name.slice(0, _this2.state.searchWord.length).toLowerCase();
+				if (subStr === _this2.state.searchWord) {
+					matchedNames.push(name);
+				}
+			});
+
+			return matchedNames;
+		}
+	}, {
+		key: 'copyName',
+		value: function copyName(ev) {
+			this.setState({
+				searchWord: ev.currentTarget.innerText
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this3 = this;
+
+			var names = this.matches();
+			return _react2.default.createElement(
+				'div',
+				null,
+				'Hello from Autocomplete',
+				_react2.default.createElement('input', { onChange: this.search.bind(this), value: this.state.searchWord, type: 'text', placeholder: 'Search..' }),
+				_react2.default.createElement(
+					'ul',
+					null,
+					names.map(function (word, idx) {
+						return _react2.default.createElement(
+							'li',
+							{ key: idx, onClick: _this3.copyName.bind(_this3) },
+							word
+						);
+					})
+				)
+			);
+		}
+	}]);
+
+	return Autocomplete;
+}(_react2.default.Component);
+
+exports.default = Autocomplete;
 
 /***/ })
 /******/ ]);
