@@ -16,6 +16,7 @@ class Weather extends React.Component{
 			let url = "http://api.openweathermap.org/data/2.5/weather?lat=" 
 			 + lat + "&lon=" + lon + '&APPID=' + Config.weatherKey;
 
+			 console.log(Config.weatherKey);
 			request.open('GET', url, true);
 			request.onload = (resp) => {
 				console.log(request.status, 'this is the status');
